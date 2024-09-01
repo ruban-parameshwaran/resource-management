@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('user_type')->nullable()->default(null); // Values should be Admin or Vendor or Employee
+            $table->enum('status', ['active', 'suspended', 'deleted'])->default('active');
             $table->rememberToken();
             $table->timestamps();
         });
