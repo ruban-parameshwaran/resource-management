@@ -27,14 +27,7 @@ Class ProductService {
     
     public function deleteProduct(Product $product)
     {
-        try {
-            $product->delete();
-            return response()->json([
-                'message' => 'Product deleted successfully',
-            ], 200);
-        } catch (\Exception $e) {
-            throw new \Exception('Error deleting product: ' . $e->getMessage());
-        }
+        return $product->delete();
     }
 
     public function getProductById($productID)
