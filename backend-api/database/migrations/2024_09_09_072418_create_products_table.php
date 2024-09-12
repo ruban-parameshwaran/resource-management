@@ -21,13 +21,10 @@ class CreateProductsTable extends Migration
             $table->decimal('retail_price', 10, 2);
             $table->decimal('whole_sale', 10, 2)->nullable();
             $table->boolean('is_active')->default(true);
+            $table->unsignedBigInteger('category_id');  // Foreign key
             $table->timestamps();
-        });
 
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
@@ -22,16 +24,20 @@ class ProductController extends Controller
     }
 
     public function index() {
-        
+        try {
+            $products = $this->productService->getAllProducts();
+            return ProductResource::collection($products);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error fetching products: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
-    public function show(Product $product) {
+    public function show($productID) {
         try {
-            
-            return response()->json([
-                'message' => 'Product deleted successfully',
-                'data'    => $product
-            ], 200);
+            $product = $this->productService->getProductById($productID);
+            return new ProductResource($product);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -44,11 +50,14 @@ class ProductController extends Controller
                 'message' => 'Product created successfully',
                 'data' => $product,
             ], 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422); 
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation failed: ' . $e->getMessage(),
+            ], 422);
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
-            return response()->json(['message' => 'An unexpected error occurred'], 500); 
+            return response()->json([
+                'error' => 'Error creating product: ' . $e->getMessage(),
+            ], 500);
         }
     }
 

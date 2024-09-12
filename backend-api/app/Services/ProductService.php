@@ -3,8 +3,14 @@
 namespace App\Services;
 
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 Class ProductService {
+
+    public function getAllProducts(): Collection {
+        return Product::with('category')->get();
+    }
 
     /**
      * Create a new Product
@@ -22,7 +28,6 @@ Class ProductService {
     public function deleteProduct(Product $product)
     {
         try {
-            dd($product);
             $product->delete();
             return response()->json([
                 'message' => 'Product deleted successfully',
@@ -30,6 +35,17 @@ Class ProductService {
         } catch (\Exception $e) {
             throw new \Exception('Error deleting product: ' . $e->getMessage());
         }
+    }
+
+    public function getProductById($productID)
+    {
+        $product = Product::with('category')->find($productID);
+
+        if (!$product) {
+            throw new ModelNotFoundException("There is no product found...!");
+        }
+
+        return $product;
     }
 
 }
