@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoryService
 {
@@ -35,7 +36,13 @@ class CategoryService
      */
     public function getCategoryById(int $id): Category
     {
-        return Category::with('products')->findOrFail($id);
+        $category = Category::with('products')->find($id);
+
+        if (!$category) {
+            throw new ModelNotFoundException("There is no category found...!");
+        }
+
+        return $category;
     }
 
     public function updateCategory(Category $category, array $data)

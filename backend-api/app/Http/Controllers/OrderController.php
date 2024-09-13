@@ -3,25 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\OrderRequest;
 use App\Http\Resources\CategoryResource;
-use App\Models\Category;
-use App\Services\CategoryService;
-
+use App\Http\Resources\OrderResource;
+use App\Models\Order;
+use App\Services\OrderService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class OrderController extends Controller
 {   
 
-    protected $categoryService;
+    protected $orderService;
 
     /**
      * Class constructor.
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(OrderService $orderService)
     {
-        $this->categoryService = $categoryService;
+        $this->orderService = $orderService;
     }
 
     /**
@@ -29,9 +31,16 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index(): ResourceCollection
     {
-        
+        try {
+            $orders = $this->orderService->getAllOrders();
+            return OrderResource::collection($orders);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error fetching Orders: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -39,20 +48,23 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request): JsonResponse
+    public function store(OrderRequest $request): JsonResponse
     {
-      
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        
+        try {
+            $category = $this->orderService->createOrder($request->validated());
+            return response()->json([
+                "message" => 'Order created successfully',
+                "data" => new OrderResource($category)
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation failed: ' . $e->getMessage(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error creating product: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -63,7 +75,12 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $order = $this->orderService->getOrderById($id);
+            return new OrderResource($order);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -73,9 +90,17 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrderRequest $request, Order $order)
     {
-        //
+        try {
+            $updatedOrder = $this->orderService->updateOrder($order, $request->validated());
+            return response()->json([
+                'message' => 'Order updated successfully',
+                'data' => $updatedOrder,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -84,8 +109,13 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        //
+        try {
+            $this->orderService->deleteOrder($order);
+            return response()->json(['message' => 'Order deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

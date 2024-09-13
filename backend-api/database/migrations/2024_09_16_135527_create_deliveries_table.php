@@ -15,9 +15,10 @@ class CreateDeliveriesTable extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
+
             $table->string('deliver_name');
-            $table->string('email')->unique();
-            $table->text('address');
+            $table->string('email');
+            $table->string('address');
             $table->date('dil_date');
             $table->string('dilivered_by');
             $table->text('remark')->nullable();

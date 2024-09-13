@@ -42,11 +42,11 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
     });
 
     // orders routes
-    // Route::prefix('orders')->group(function () {
-    //     Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-    //     Route::post('/', [OrderController::class, 'store'])->name('orders.store');
-    //     Route::get('/{order}', [OrderController::class, 'show'])->name('orders.show');
-    //     Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
-    //     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
-    // });
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::post('/', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
+        Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    });
 });
