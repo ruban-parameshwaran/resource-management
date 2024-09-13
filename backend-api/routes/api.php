@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -48,5 +49,24 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
         Route::get('/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
         Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    });
+
+    // customer routes
+    Route::prefix('customers')->group(function () {
+        Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
+        Route::post('/', [CustomerController::class, 'store'])->name('customers.store');
+        Route::get('/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+        Route::put('/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+        Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    });
+
+    // delivery routes
+
+    Route::prefix('deliveries')->group(function () {
+        Route::get('/', [DeliveryController::class, 'index'])->name('deliveries.index');
+        Route::post('/', [DeliveryController::class, 'store'])->name('deliveries.store');
+        Route::get('/{delivery}', [DeliveryController::class, 'show'])->name('deliveries.show');
+        Route::put('/{delivery}', [DeliveryController::class, 'update'])->name('deliveries.update');
+        Route::delete('/{delivery}', [DeliveryController::class, 'destroy'])->name('deliveries.destroy');
     });
 });
