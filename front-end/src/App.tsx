@@ -1,7 +1,22 @@
-import { Outlet } from "react-router-dom";
+import axios from "axios";
+import Cookies from "universal-cookie";
 import Footer from "./components/footer";
 import Header from "./components/header";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./components/sidebar";
+import { AppConst } from "./const/AppConst";
+/*** Axios Configuration ***/
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = AppConst.BaseURL;
+
+const cookies = new Cookies();
+
+axios.interceptors.request.use(function (config: any) {
+    const token = cookies.get("access_token");
+    config.headers.Authorization = "Bearer " + token;
+    return config;
+});
 
 export default function App() {
     return (
