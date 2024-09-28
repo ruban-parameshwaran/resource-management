@@ -14,7 +14,7 @@ interface DefaultButtonProps {
 
 const DefaultButton = ({classes, fn, icon, message, type, disabled, isLoading, loaderText}: DefaultButtonProps) => {
     return (
-        <button type={type} className={'btn '+ classes + ' btn btn-primary w-100 py-8 fs-4 mb-4'} onClick={fn} disabled={disabled}>
+        <button type={type} className={'btn '+ classes + ' btn btn-outline-primary mx-3 mt-2 d-block'} onClick={fn} disabled={disabled}>
             <div className="flex-container">
                 {icon}
                 {isLoading ? <span>{isLoading ? <Spinner animation="border" className="btn-spinner-icon" style={{width:'1rem',height:'1rem'}}/> : loaderText}</span> :  <span>{message}</span>}
@@ -24,3 +24,4 @@ const DefaultButton = ({classes, fn, icon, message, type, disabled, isLoading, l
 }
 
 export default DefaultButton;
+

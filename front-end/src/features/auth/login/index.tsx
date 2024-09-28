@@ -1,20 +1,23 @@
 import * as Yup from 'yup';
-import { useEffect } from 'react';
 import { useFormik } from "formik";
 import AuthForm from "./components/form";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useInitCsrfMutation, useUserLoginMutation } from '@src/services/api/authApi';
+import notification from '@src/services/notification';
+import { useDispatch } from 'react-redux';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { userLogin } from './authSlice';
-import { useLocation, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-
-
+import { setAuthUser } from './userSlice';
+import { useEffect } from 'react';
 
 export default function Login() {
 
+    const [ userLogin, {isLoading}] = useUserLoginMutation();
+
+
+    const [ initCsrf ] = useInitCsrfMutation();
+
     const dispatch: ThunkDispatch<RootState, unknown, Action<string>> = useDispatch();
-    const { isLoading, message, isError, isSuccess} = useSelector((state:RootState) => state.auth);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -23,7 +26,7 @@ export default function Login() {
     /**
      * Initial Values form login form   
      */     
-     const formInitialValues = {
+    const formInitialValues = {
         email: "",
         password: "",
     }
@@ -35,25 +38,28 @@ export default function Login() {
             password: Yup.string().required(),
         }),
         onSubmit: async (values) => {
-            dispatch(userLogin(values))
-                .then((res) => {
-                    if (res.payload.success) {
-                        toast.success(message);                        
-                        navigate(from, { replace: true });
-                    }
-                })
+            try {
+                
+                await initCsrf().unwrap();
+
+                const response = await userLogin(values).unwrap();
+                
+                if (response?.success) {
+                    dispatch(setAuthUser({
+                        token   : response?.data?.token,
+                        email   : response?.data?.email,
+                        id      : response?.data?.id
+                    }))
+                    notification.successNotification(response?.message) 
+                    navigate(from, { replace: true });
+                }
+                
+            } catch(error: any) {
+                console.log(error);
+                notification.errorNotification(error?.data?.message) 
+            }
         }
     });
-
-    
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message);
-        }
-    }, [isError, message, isSuccess]);
-
-    
 
     return (
         <div className="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
