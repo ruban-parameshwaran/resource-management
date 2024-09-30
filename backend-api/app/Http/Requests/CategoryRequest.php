@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\ResponseHelper;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 
 class CategoryRequest extends FormRequest
 {
@@ -24,7 +26,17 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categories,name',
         ];
+    }
+
+    /**
+     * Return validation exception when validation failed
+     * @param Validator $validator
+     * @return void
+     */
+    public function failedValidation(Validator $validator): void
+    {
+        ResponseHelper::sendError('Validation Error', $validator->errors(), 400);
     }
 }

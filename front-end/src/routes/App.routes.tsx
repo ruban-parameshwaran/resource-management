@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../features/auth/login";
+import CategoryContainer from "@src/features/category/container/CategoryContainer";
+
 
 const AppRoutes = createBrowserRouter([
     // public routes
@@ -19,6 +21,10 @@ const AppRoutes = createBrowserRouter([
             {
                 path: 'products',
                 element: <>Products</>
+            },
+            {
+                path: 'category',
+                element: <CategoryContainer />
             }
         ]
     },

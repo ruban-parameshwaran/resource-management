@@ -4,16 +4,15 @@ import { RootState } from '@src/app/store';
 import userImg from '../../assets/img/user.jpg';
 import notification from '@src/services/notification';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUserLogoutMutation } from '@src/services/api/authApi';
 import { clearAuthUser } from '@src/features/auth/login/userSlice';
 import { useEffect } from 'react';
-import DefaultButton from '../button/DefaultButton';
 
 export default function Header() {
 
     const dispatch: ThunkDispatch<RootState, unknown, Action<string>> = useDispatch();
-    const [userLogout, {isSuccess, isLoading}] = useUserLogoutMutation();
+    const [userLogout, {isSuccess}] = useUserLogoutMutation();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -40,7 +39,6 @@ export default function Header() {
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="navbar-collapse justify-content-end px-0" id="navbarNav">
                     <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-
                         <li className="nav-item dropdown">
                             <a className="nav-link nav-icon-hover" onClick={(e) => e.preventDefault} id="drop2" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -48,23 +46,12 @@ export default function Header() {
                             </a>
                             <div className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                 <div className="message-body">
-                                    <a href="#" onClick={(e) => e.preventDefault} className="d-flex align-items-center gap-2 dropdown-item">
-                                        <i className="ti ti-user fs-6"></i>
+                                    <Link to="/profile" onClick={(e) => e.preventDefault} className="d-flex align-items-center gap-2 dropdown-item">
                                         <p className="mb-0 fs-3">My Profile</p>
-                                    </a>
-                                    <a href="#" onClick={(e) => e.preventDefault} className="d-flex align-items-center gap-2 dropdown-item">
-                                        <i className="ti ti-mail fs-6"></i>
-                                        <p className="mb-0 fs-3">My Account</p>
-                                    </a>
-                                    <a href="#" onClick={(e) => e.preventDefault} className="d-flex align-items-center gap-2 dropdown-item">
-                                        <i className="ti ti-list-check fs-6"></i>
-                                        <p className="mb-0 fs-3">My Task</p>
-                                    </a>
-                                    <DefaultButton 
-                                        fn={onLogoutHandler}
-                                        isLoading={isLoading}
-                                        disabled={isLoading}
-                                        message='Logout'/>
+                                    </Link>
+                                    <Link to="#" onClick={onLogoutHandler} className="d-flex align-items-center gap-2 dropdown-item">
+                                        <p className="mb-0 fs-3">Logout</p>
+                                    </Link>
                                 </div>
                             </div>
                         </li>

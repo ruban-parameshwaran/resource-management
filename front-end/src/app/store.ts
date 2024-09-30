@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '@src/features/auth/login/userSlice';
 import { authApi } from '@src/services/api/authApi';
+import { categoryApi } from '@src/services/api/categoryApi';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from "redux-persist/lib/storage";
 
@@ -14,12 +15,15 @@ const persistedReducer = persistReducer(persistConfig, userReducer);
 export const store = configureStore({
     reducer: {
         [authApi.reducerPath]: authApi.reducer,
+        [categoryApi.reducerPath]: categoryApi.reducer,
         user: persistedReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false
-        }).concat(authApi.middleware),
+        }).concat(
+            authApi.middleware,
+            categoryApi.middleware),
 });
 
 export const persistor = persistStore(store);

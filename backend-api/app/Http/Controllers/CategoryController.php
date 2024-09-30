@@ -9,6 +9,7 @@ use App\Http\Resources\CategoryResource;
 
 use Illuminate\Http\JsonResponse;
 use Dotenv\Exception\ValidationException;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {       
@@ -41,25 +42,22 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  CategoryRequest $request
+     * @return JsonResponse
      */
-    public function store(CategoryRequest $request)
-    {
+    public function store(CategoryRequest $request): JsonResponse
+    {   
         try {
+ 
             $category = $this->categoryService->createCategory($request->validated());
             return response()->json([
-                "message" => 'Category created successfully',
-                "data" => new CategoryResource($category)
+                "message"   => 'Category created successfully',
+                "success"   => true,
+                "data"      => new CategoryResource($category)
             ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'error' => 'Validation failed: ' . $e->getMessage(),
-            ], 422);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Error creating product: ' . $e->getMessage(),
+                'error' => 'Error creating category: ' . $e->getMessage(),
             ], 500);
         }
     }
@@ -91,10 +89,10 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category): JsonResponse
     {
         try {
-            $updatedCategory = $this->categoryService->updateCategory($category, $request->validated());
+            $this->categoryService->updateCategory($category, $request->validated());
             return response()->json([
                 'message' => 'Category updated successfully',
-                'data' => $updatedCategory,
+                'success' => true,
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -111,7 +109,10 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryService->deleteCategory($category);
-            return response()->json(['message' => 'Category deleted successfully'], 200);
+            return response()->json([
+                'message' => 'Category deleted successfully',
+                'success' => true
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

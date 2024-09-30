@@ -36,8 +36,8 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
     });
 
     Route::prefix('categories')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
-        Route::post('/', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/get-all', [CategoryController::class, 'index'])->name('categories.index');
+        Route::post('/create-category', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/{category}', [CategoryController::class, 'show'])->name('categories.show');
         Route::put('/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');

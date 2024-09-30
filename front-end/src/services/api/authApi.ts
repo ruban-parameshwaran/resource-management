@@ -3,10 +3,10 @@ import { RootState } from "@src/app/store";
 import { AppConst } from "@src/const/AppConst";
 import { AuthUser, Credentials } from "@src/interface/AuthUser";
 
-export interface ApiResponse {
+interface ApiResponse {
   success: string;
   message: string;
-  data: AuthUser;
+  data?: AuthUser;
 }
 
 export const authApi = createApi({

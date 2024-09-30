@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
 import { setAuthUser } from './userSlice';
-import { useEffect } from 'react';
 
 export default function Login() {
 

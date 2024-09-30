@@ -1,0 +1,10 @@
+.spinner-loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffffb5;
+  height: 300px;
+  width: 100%;
+  transition: height .2s linear;
+  z-index: 9999;
+}
