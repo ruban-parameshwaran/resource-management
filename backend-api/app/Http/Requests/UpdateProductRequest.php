@@ -6,7 +6,7 @@ use App\Helpers\ResponseHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_code'      => 'required|string|unique:products,product_code',
+            'product_code'      => 'required|string',
             'name'              => 'required|string|max:255',
             'unit'              => 'required|in:400g,1kg',
             'retail_price'      => 'required|numeric|min:0',
@@ -45,5 +45,4 @@ class StoreProductRequest extends FormRequest
     {
         ResponseHelper::sendError('Validation Error', $validator->errors(), 400);
     }
-
 }

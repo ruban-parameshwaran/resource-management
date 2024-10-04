@@ -1,0 +1,33 @@
+
+
+.model-close-btn {
+	font-size: 30px;
+	padding: 10px 12px;
+	height: 3rem;
+	line-height: 1;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: 0.1s ease-in-out;
+
+	&:hover {
+		background: #efefef;
+	}
+}
+
+.modal-container {
+	svg {
+		width: 1.2rem;
+		cursor: pointer;
+	}
+}
+
+.modal-header {
+	background-color: #efefef;
+	border-bottom: 0;
+	
+	.title {
+		font-size: 1.2rem;
+		font-weight: 400;
+		color: #efefef;
+	}
+}

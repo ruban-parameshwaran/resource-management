@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use App\Http\Resources\ProductResource;
+use Dotenv\Exception\ValidationException;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {   
@@ -49,11 +50,8 @@ class ProductController extends Controller
             return response()->json([
                 'message' => 'Product created successfully',
                 'data' => $product,
+                'success' => true
             ], 201);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'error' => 'Validation failed: ' . $e->getMessage(),
-            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error creating product: ' . $e->getMessage(),
@@ -61,13 +59,14 @@ class ProductController extends Controller
         }
     }
 
-    public function update(StoreProductRequest $request, Product $product): JsonResponse
+    public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
         try {
             $updatedProduct = $this->productService->updateProduct($product, $request->validated());
             return response()->json([
                 'message' => 'Product updated successfully',
                 'data' => $updatedProduct,
+                'success' => true
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -78,7 +77,10 @@ class ProductController extends Controller
     {
         try {
             $this->productService->deleteProduct($product);
-            return response()->json(['message' => 'Product deleted successfully'], 200);
+            return response()->json([
+                'message' => 'Product deleted successfully',
+                'success' => true
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

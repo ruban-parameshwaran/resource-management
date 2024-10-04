@@ -8,7 +8,7 @@ type DropDownProps = {
 
 const DropDown: FC<DropDownProps> = ({ onDelete, onEdit, id }) => {
     return (
-        <div className="btn-group">
+        <div className="btn-group dropdown">
             <button 
                 className="btn bg-secondary-subtle text-secondary btn-sm dropdown-toggle" 
                 type="button" 

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from "formik";
-import { Col, Row } from "react-bootstrap";
 import Card from "@src/components/card";
-import NewCategory from "../components/NewCategory";
-import notification from '@src/services/notification';
-import CategoryList from "../components/CategoryList";
-import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetAllCategoryQuery, useUpdateCategoryMutation } from "@src/services/api/categoryApi";
+import { Col, Row } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import NewCategory from '../screens/NewCategory';
+import CategoryList from '../screens/CategoryList';
 import Animate from '@src/components/animate/Animate';
+import notification from '@src/services/notification';
+import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetAllCategoryQuery, useUpdateCategoryMutation } from "@src/services/api/categoryApi";
 
 export type FormType = {
     type: 'CREATE' | 'EDIT';
@@ -102,7 +102,7 @@ const CategoryContainer = () => {
 
     return (
         <Animate>
-            <Card classes={'p-4'}>
+            <Card classes={'p-4 '}>
                 <Row>
                     <Col lg={7}>
                         <CategoryList

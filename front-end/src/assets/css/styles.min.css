@@ -16801,6 +16801,7 @@ textarea.form-control-lg {
 
 .body-wrapper {
   position: relative;
+  min-height: 100vh;
 }
 .body-wrapper > .container-fluid, .body-wrapper > .container-sm, .body-wrapper > .container-md, .body-wrapper > .container-lg, .body-wrapper > .container-xl, .body-wrapper > .container-xxl {
   max-width: 1300px;

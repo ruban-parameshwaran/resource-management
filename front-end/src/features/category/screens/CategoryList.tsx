@@ -1,5 +1,5 @@
 import Card from "@src/components/card";
-import DropDown from "@src/features/category/components/Dropdown";
+import DropDown from "./components/Dropdown";
 import LoadingIndicator from "@src/components/loader/LoadingIndicator";
 import { Category } from "@src/interface/Category";
 import { FC } from "react";

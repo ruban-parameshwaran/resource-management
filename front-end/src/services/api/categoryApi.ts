@@ -3,7 +3,6 @@ import { RootState } from "@src/app/store";
 import { AppConst } from "@src/const/AppConst";
 import { Category } from "@src/interface/Category";
 
-
 interface ApiResponse {
     success: string;
     message: string;
@@ -25,7 +24,7 @@ export const categoryApi = createApi({
         prepareHeaders(headers, { getState }) {
             const token = (getState() as RootState).user.token;
             if (token) {
-            headers.set("Authorization", `Bearer ${token}`);
+                headers.set("Authorization", `Bearer ${token}`);
             }
             return headers;
         },
