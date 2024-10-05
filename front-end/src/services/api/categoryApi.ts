@@ -1,7 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "@src/app/store";
-import { AppConst } from "@src/const/AppConst";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { Category } from "@src/interface/Category";
+import axiosBaseQuery from "./axiosBaseQuery";
 
 interface ApiResponse {
     success: string;
@@ -19,16 +18,7 @@ type formValue = {
 
 export const categoryApi = createApi({
     reducerPath: "category",
-    baseQuery: fetchBaseQuery({
-        baseUrl: AppConst.BaseURL,
-        prepareHeaders(headers, { getState }) {
-            const token = (getState() as RootState).user.token;
-            if (token) {
-                headers.set("Authorization", `Bearer ${token}`);
-            }
-            return headers;
-        },
-    }),
+    baseQuery: axiosBaseQuery(),
     endpoints: (build) => ({
         // create category
         createCategory: build.mutation<ApiResponse, formValue>({
@@ -36,7 +26,7 @@ export const categoryApi = createApi({
                 return {
                     url: "/api/categories/create-category",
                     method: "POST",
-                    body,
+                    data: body,
                 };
             },
         }),
@@ -71,7 +61,7 @@ export const categoryApi = createApi({
                 return {
                     url: `/api/categories/${id}`,
                     method: "PUT",
-                    body: payload
+                    data: payload
                 };
             },
         }),

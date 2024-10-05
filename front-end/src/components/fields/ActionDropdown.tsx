@@ -6,7 +6,7 @@ type DropDownProps = {
     onEdit: (id: number) =>  void
 }
 
-const DropDown: FC<DropDownProps> = ({ onDelete, onEdit, id }) => {
+const ActionDropdown: FC<DropDownProps> = ({ onDelete, onEdit, id }) => {
     return (
         <div className="btn-group dropdown">
             <button 
@@ -42,4 +42,4 @@ const DropDown: FC<DropDownProps> = ({ onDelete, onEdit, id }) => {
     );
 }
 
-export default DropDown;
+export default ActionDropdown;

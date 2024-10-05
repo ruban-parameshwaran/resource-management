@@ -1,7 +1,8 @@
 export interface AuthUser {
     id: number | null,
     token: string,
-    email: string
+    email: string,
+    isUserLoggedIn: boolean
 }
 
 export interface Credentials {

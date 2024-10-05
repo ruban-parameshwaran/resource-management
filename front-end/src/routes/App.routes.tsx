@@ -1,8 +1,12 @@
+import React, { Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../features/auth/login";
 import CategoryContainer from "@src/features/category/container/CategoryContainer";
-import ProductContainer from "@src/features/products/container/ProductContainer";
+import CustomerContainer from "@src/features/customers/container/CustomerContainer";
+import LoadingIndicator from "@src/components/loader/LoadingIndicator";
+
+const ProductContainer = React.lazy(() => import('@src/features/products/container/ProductContainer'))
 
 const AppRoutes = createBrowserRouter([
     // public routes
@@ -20,11 +24,19 @@ const AppRoutes = createBrowserRouter([
             },
             {
                 path: 'products',
-                element: <ProductContainer />
+                element: <>
+                    <Suspense fallback={<LoadingIndicator isLoading={true}><></></LoadingIndicator>}>
+                        <ProductContainer />
+                    </Suspense>
+                </>
             },
             {
                 path: 'category',
                 element: <CategoryContainer />
+            },
+            {
+                path: 'customers',
+                element: <CustomerContainer />
             }
         ]
     },

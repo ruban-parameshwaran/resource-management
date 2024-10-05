@@ -47,7 +47,8 @@ export default function Login() {
                     dispatch(setAuthUser({
                         token   : response?.data?.token,
                         email   : response?.data?.email,
-                        id      : response?.data?.id
+                        id      : response?.data?.id,
+                        isUserLoggedIn: true
                     }))
                     notification.successNotification(response?.message) 
                     navigate(from, { replace: true });

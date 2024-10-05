@@ -2,23 +2,25 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '@src/features/auth/login/userSlice';
 import { authApi } from '@src/services/api/authApi';
 import { categoryApi } from '@src/services/api/categoryApi';
+import { customerApi } from '@src/services/api/customerApi';
 import { productApi } from '@src/services/api/productApi';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
     key: "root",
-    storage,
+    storage
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);
 
 export const store = configureStore({
     reducer: {
+        user: persistedReducer,
         [authApi.reducerPath]: authApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
         [productApi.reducerPath]: productApi.reducer,
-        user: persistedReducer
+        [customerApi.reducerPath]: customerApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -26,7 +28,8 @@ export const store = configureStore({
         }).concat(
             authApi.middleware,
             categoryApi.middleware,
-            productApi.middleware
+            productApi.middleware,
+            customerApi.middleware
         ),
 });
 

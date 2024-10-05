@@ -8,10 +8,7 @@ import CategoryList from '../screens/CategoryList';
 import Animate from '@src/components/animate/Animate';
 import notification from '@src/services/notification';
 import { useCreateCategoryMutation, useDeleteCategoryMutation, useGetAllCategoryQuery, useUpdateCategoryMutation } from "@src/services/api/categoryApi";
-
-export type FormType = {
-    type: 'CREATE' | 'EDIT';
-};
+import { FormType } from '@src/interface/Fields';
 
 type InitialValues = {
     category: string;

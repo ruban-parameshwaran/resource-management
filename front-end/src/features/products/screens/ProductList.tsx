@@ -4,7 +4,7 @@ import CreateProduct from "./CreateProduct";
 import { InitialValuesProducts, Product } from "@src/interface/Product";
 import ModalBox from "@src/components/modal/Modal";
 import { DropDownOption } from "@src/interface/Fields";
-import DropDown from "@src/features/category/screens/components/Dropdown";
+import DropDown from "@src/components/fields/ActionDropdown";
 import { FormikProps } from "formik";
 import { FormType } from "@src/features/category/container/CategoryContainer";
 import DefaultButton from "@src/components/button/DefaultButton";

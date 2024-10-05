@@ -8,13 +8,8 @@ type ProtectedRouteProps = {
 }
 
 const ProtectedRoute = ({children}: ProtectedRouteProps) => {
-  
-    const token = useSelector((state: RootState) => state.user.token);
-
-    // return token ? <Outlet /> : <Navigate to={'/login'} replace={true} />
-
+    const { token } = useSelector((state: RootState) => state.user);
     return  token ? children: <Navigate to="/login" replace={true} />
-
 }
 
 export default ProtectedRoute;

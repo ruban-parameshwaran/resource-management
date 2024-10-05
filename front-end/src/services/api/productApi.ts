@@ -1,21 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "@src/app/store";
-import { AppConst } from "@src/const/AppConst";
-import { ApiResponse, Product, ProductPayload } from "@src/interface/Product";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { ApiResponse, Product } from "@src/interface/Product";
+import axiosBaseQuery from "./axiosBaseQuery";
 
 
 export const productApi = createApi({
     reducerPath: 'product',
-    baseQuery: fetchBaseQuery({
-        baseUrl: AppConst.BaseURL,
-        prepareHeaders(headers, { getState }) {
-            const token = (getState() as RootState).user.token;
-            if (token) {
-                headers.set("Authorization", `Bearer ${token}`);
-            }
-            return headers;
-        },
-    }),
+    baseQuery: axiosBaseQuery(),
     endpoints: (build) => ({
         getAllProductList: build.query<ApiResponse, void>({
             query() {
@@ -32,7 +22,7 @@ export const productApi = createApi({
                 return {
                     url: 'api/products',
                     method: 'POST',
-                    body
+                    data: body
                 }
             }
         }),
@@ -54,7 +44,7 @@ export const productApi = createApi({
                 return {
                     url: `api/products/${id}`,
                     method: 'PUT',
-                    body
+                    data: body
                 }
             }
         })

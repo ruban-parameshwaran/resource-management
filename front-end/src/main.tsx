@@ -8,7 +8,6 @@ import { persistor, store } from './app/store.ts';
 import { Toaster } from 'react-hot-toast';
 import { PersistGate } from 'redux-persist/integration/react';
 
-
 createRoot(document.getElementById('root')!).render(
     <>
         <Toaster />

@@ -17,4 +17,9 @@ export class AppConst {
         {label: 'Inactive', value: false},
     ];
 
+    static readonly formType = [
+        {type: 'CREATE'},
+        {type: 'EDIT'}
+    ];
+
 }
