@@ -6,7 +6,7 @@ use App\Helpers\ResponseHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class CustomerRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class CustomerRequest extends FormRequest
             'name'      => 'required|string|max:255',
             'contact'   => 'required|string|max:255',
             'address'   => 'required|string|max:255',
-            'email'     => 'required|email|unique:customers,email',
+            'email'     => 'required|email',
         ];
     }
 

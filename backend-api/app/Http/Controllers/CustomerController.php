@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Mockery\Matcher\Any;
+use App\Models\Customer;
+use Illuminate\Http\Request;
+use App\Services\CustomerService;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
-use App\Services\CustomerService;
+use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Mockery\Matcher\Any;
 
 class CustomerController extends Controller
 {
@@ -53,6 +54,7 @@ class CustomerController extends Controller
             return response()->json([
                 'message' => 'Product created successfully',
                 'data' => $customer,
+                'success' => true
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -90,13 +92,14 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CustomerRequest $request, Customer $customer): JsonResponse
+    public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {
         try {
             $updatedCustomer = $this->customerService->updateCustomer($customer, $request->validated());
             return response()->json([
-                'message' => 'Customer updated successfully',
-                'data' => $updatedCustomer,
+                'message'   => 'Customer updated successfully',
+                'data'      => $updatedCustomer,
+                'success'   => true
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -113,7 +116,10 @@ class CustomerController extends Controller
     {
         try {
             $this->customerService->deleteCustomer($customer);
-            return response()->json(['message' => 'Customer deleted successfully'], 200);
+            return response()->json([
+                'message' => 'Customer deleted successfully',
+                'success' => true
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

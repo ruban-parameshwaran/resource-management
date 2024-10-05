@@ -25,7 +25,8 @@ class CategoryService
      */
     public function getAllCategories()
     {
-        return Category::with('products')->get();
+        return Category::with('products')
+            ->orderBy('name','desc')->paginate();
     }
 
     /**

@@ -25,7 +25,9 @@ class CustomerService
      */
     public function getAllCustomers()
     {
-        return Customer::with('orders')->get();
+        return Customer::with('orders')
+            ->orderBy('id','desc')
+            ->paginate(5);
     }
 
     /**
