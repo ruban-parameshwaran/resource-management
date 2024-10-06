@@ -94,7 +94,7 @@ class DeliveryController extends Controller
             $updatedDelivery = $this->deliveryService->updateDelivery($delivery, $request->validated());
             return response()->json([
                 'message' => 'Delivery updated successfully',
-                'data' => $updatedDelivery,
+                'success' => $updatedDelivery,
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -111,7 +111,10 @@ class DeliveryController extends Controller
     {
         try {
             $this->deliveryService->deleteDelivery($delivery);
-            return response()->json(['message' => 'Delivery deleted successfully'], 200);
+            return response()->json([
+                'message' => 'Delivery deleted successfully',
+                'success'   => true
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

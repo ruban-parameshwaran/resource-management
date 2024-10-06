@@ -16,15 +16,13 @@ class DeliveryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'diliver_name' => $this->diliver_name,
+            'deliver_name' => $this->deliver_name,
             'email' => $this->email,
             'address' => $this->address,
             'dil_date' => $this->dil_date,
             'dilivered_by' => $this->dilivered_by,
             'remark' => $this->remark,
-            'orders' => OrderResource::collection($this->whenLoaded('orders')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'orders' => OrderResource::collection($this->whenLoaded('orders'))
         ];
     }
 }

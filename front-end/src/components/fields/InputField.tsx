@@ -25,7 +25,7 @@ const InputField = ({ type, label, value, rest, onChange,onBlur, name, id, isSho
         <>
             {label ? <Form.Label>{label}</Form.Label> : ''}
             {required && <span className={'error-message'}>*</span>}
-            {type === 'text' || type === 'number' || type === 'email' || type === 'password' ? 
+            {type === 'text' || type === 'number' || type === 'email' || type === 'password' || type === 'date' ? 
 
                 <Form.Control 
                   type={type} 

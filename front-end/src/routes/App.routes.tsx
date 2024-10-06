@@ -2,11 +2,13 @@ import React, { Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Login from "../features/auth/login";
-import CategoryContainer from "@src/features/category/container/CategoryContainer";
-import CustomerContainer from "@src/features/customers/container/CustomerContainer";
 import LoadingIndicator from "@src/components/loader/LoadingIndicator";
 
-const ProductContainer = React.lazy(() => import('@src/features/products/container/ProductContainer'))
+const ProductContainer = React.lazy(() => import('@src/features/products/container/ProductContainer'));
+const CategoryContainer = React.lazy(() => import('@src/features/category/container/CategoryContainer'));
+const CustomerContainer = React.lazy(() => import('@src/features/customers/container/CustomerContainer'));
+const DeliveryContainer = React.lazy(() => import('@src/features/deliveries/container/DeliveryContainer'));
+
 
 const AppRoutes = createBrowserRouter([
     // public routes
@@ -32,11 +34,30 @@ const AppRoutes = createBrowserRouter([
             },
             {
                 path: 'category',
-                element: <CategoryContainer />
+                element: 
+                <>
+                    <Suspense fallback={<LoadingIndicator isLoading={true}><></></LoadingIndicator>}>
+                        <CategoryContainer />
+                    </Suspense>
+                </>
             },
             {
                 path: 'customers',
-                element: <CustomerContainer />
+                element: 
+                <>
+                    <Suspense fallback={<LoadingIndicator isLoading={true}><></></LoadingIndicator>}>
+                        <CustomerContainer />
+                    </Suspense>
+                </>
+            },
+            {
+                path: 'deliveries',
+                element: 
+                <>
+                    <Suspense fallback={<LoadingIndicator isLoading={true}><></></LoadingIndicator>}>
+                        <DeliveryContainer />
+                    </Suspense>
+                </>
             }
         ]
     },
