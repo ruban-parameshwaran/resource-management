@@ -53,6 +53,7 @@ class DeliveryController extends Controller
             return response()->json([
                 'message' => 'Delivery created successfully',
                 'data' => $product,
+                'success'   => true
             ], 201);
         } catch (ValidationException $e) {
             return response()->json([

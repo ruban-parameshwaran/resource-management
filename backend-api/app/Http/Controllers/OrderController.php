@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Http\Requests\OrderRequest;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\OrderResource;
 use App\Models\Order;
-use App\Services\OrderService;
-use Dotenv\Exception\ValidationException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Services\OrderService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\OrderRequest;
+use App\Http\Resources\OrderResource;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\CategoryResource;
+use App\Http\Requests\UpdateOrderRequest;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class OrderController extends Controller
@@ -54,7 +55,8 @@ class OrderController extends Controller
             $category = $this->orderService->createOrder($request->validated());
             return response()->json([
                 "message" => 'Order created successfully',
-                "data" => new OrderResource($category)
+                "data" => new OrderResource($category),
+                "success" => true
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -90,13 +92,14 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OrderRequest $request, Order $order)
+    public function update(UpdateOrderRequest $request, Order $order)
     {
         try {
             $updatedOrder = $this->orderService->updateOrder($order, $request->validated());
             return response()->json([
                 'message' => 'Order updated successfully',
                 'data' => $updatedOrder,
+                "success" => true
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -113,7 +116,10 @@ class OrderController extends Controller
     {
         try {
             $this->orderService->deleteOrder($order);
-            return response()->json(['message' => 'Order deleted successfully'], 200);
+            return response()->json([
+                'message' => 'Order deleted successfully',
+                "success" => true
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

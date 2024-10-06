@@ -6,7 +6,7 @@ use App\Helpers\ResponseHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class OrderRequest extends FormRequest
+class UpdateOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_num' => 'required|unique:orders',
+            'order_num' => 'required',
             'customer_id' => 'required|exists:customers,id',
             'order_date' => 'required|date',
             'order_amount' => 'required|numeric',

@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->date('order_date');
             $table->decimal('order_amount', 10, 2);
             $table->text('order_description')->nullable();
+            
             $table->unsignedBigInteger('delivery_id')->nullable(); 
             $table->enum('payment_method', ['cod', 'card', 'onlinetransfer']);
             $table->enum('status', ['open', 'processing', 'delivered', 'rejected', 'cancel']);

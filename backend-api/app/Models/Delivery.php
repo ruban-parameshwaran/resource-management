@@ -19,7 +19,6 @@ class Delivery extends Model
     ];
 
     // relationship
-
     public function orders()
     {
         return $this->hasMany(Order::class);
