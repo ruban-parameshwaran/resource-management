@@ -8,11 +8,11 @@ import { useDispatch } from 'react-redux';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { RootState } from '@src/app/store';
 import { setAuthUser } from './userSlice';
+import { useState } from 'react';
 
 export default function Login() {
 
-    const [ userLogin, {isLoading}] = useUserLoginMutation();
-
+    const [ userLogin] = useUserLoginMutation();
 
     const [ initCsrf ] = useInitCsrfMutation();
 
@@ -21,6 +21,8 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/dashboard";
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     /**
      * Initial Values form login form   
@@ -38,17 +40,16 @@ export default function Login() {
         }),
         onSubmit: async (values) => {
             try {
-                
+                setIsLoading(true);
                 await initCsrf().unwrap();
 
                 const response = await userLogin(values).unwrap();
-                
+
                 if (response?.success) {
                     dispatch(setAuthUser({
                         token   : response?.data?.token,
                         email   : response?.data?.email,
                         id      : response?.data?.id,
-                        isUserLoggedIn: true
                     }))
                     notification.successNotification(response?.message) 
                     navigate(from, { replace: true });
@@ -57,6 +58,8 @@ export default function Login() {
             } catch(error: any) {
                 console.log(error);
                 notification.errorNotification(error?.data?.message) 
+            } finally {
+                setIsLoading(false);
             }
         }
     });

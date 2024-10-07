@@ -22,7 +22,7 @@ axiosClient.interceptors.request.use((config) => {
 
 axiosClient.interceptors.response.use(undefined, (error: AxiosError) => {
 	if (error.response?.status === 401) {
-		window.location.href = "/login";
+		throw new Error('Unothorized');
 	}
 	return Promise.reject(error);
 });

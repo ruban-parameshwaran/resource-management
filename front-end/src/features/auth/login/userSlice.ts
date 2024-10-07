@@ -5,7 +5,6 @@ const initialState: AuthUser = {
   id: null,
   token: "",
   email: "",
-  isUserLoggedIn: false
 };
 
 const userSlice = createSlice({
@@ -16,13 +15,11 @@ const userSlice = createSlice({
       state.id = action.payload.id;
       state.email = action.payload.email;
       state.token = action.payload.token;
-      state.isUserLoggedIn = true;
     },
     clearAuthUser: (state) => {
-      (state.email = ""), 
-      (state.id = null), 
-      (state.token = ""),
-      (state.isUserLoggedIn = false);
+      state.email = "";
+      state.id = null;
+      state.token = "";
     },
   },
 });

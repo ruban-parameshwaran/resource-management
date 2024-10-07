@@ -5,7 +5,7 @@ import axiosBaseQuery from "./axiosBaseQuery";
 interface ApiResponse {
   success: string;
   message: string;
-  data?: AuthUser;
+  data: AuthUser;
 }
 
 export const authApi = createApi({

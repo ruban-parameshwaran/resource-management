@@ -9,7 +9,9 @@ import LoadingIndicator from "@src/components/loader/LoadingIndicator";
 import { useGetAllCategoryQuery } from "@src/services/api/categoryApi";
 import { useCreateProductMutation, useDeleteProductMutation, useGetAllProductListQuery, useUpdateProductMutation } from "@src/services/api/productApi";
 import notification from '@src/services/notification';
-import { FormType } from '@src/interface/Fields';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/app/store';
+import { setFormType } from '@src/features/slices/formTypeSlice';
 
 
 const ProductContainer = () => {
@@ -21,17 +23,21 @@ const ProductContainer = () => {
     const [ deleteProduct ] = useDeleteProductMutation();
 
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [formType, setFormType] = useState<FormType>({ type: 'CREATE' });
     const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+
+    const dispatch = useDispatch();
+    const { formType } = useSelector((state: RootState) => state.formType);
 
     /**
      * modal functions
      * @returns {void}
      */
-    const handleModalOpen = () => setShowModal(true);
+    const handleModalOpen = () => {
+        setShowModal(true)
+    };
     const handleModalClose = () => {
         setShowModal(false);
-        setFormType({type: 'CREATE'});
+        dispatch(setFormType({type: 'CREATE'}))
         onReset();
     };
 
@@ -114,10 +120,10 @@ const ProductContainer = () => {
 
     // Handle edit
     const handleEdit = (id: number) => {
-        // if (selectedProductId === id) return;
+        if (selectedProductId === id) return;
         setSelectedProductId(id);
-        setFormType({type: 'EDIT'})
-        handleModalOpen();
+        dispatch(setFormType({type: 'EDIT'}))
+        handleModalOpen();        
     };
 
     useEffect(() => {
@@ -133,10 +139,10 @@ const ProductContainer = () => {
                 category_id     : selectedProduct.category?.id
             });
         }        
-    }, [selectedProductId, categoryLists?.data])
+    }, [selectedProductId, categoryLists?.data, productLists?.data])
 
     const onReset = () => {
-        setFormType({type: 'CREATE'});
+        dispatch(setFormType({type: 'CREATE'}))
         setSelectedProductId(null);
         productForm.resetForm();
     }

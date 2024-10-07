@@ -8,8 +8,9 @@ import { orderApi } from '@src/services/api/orderApi';
 import { productApi } from '@src/services/api/productApi';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from "redux-persist/lib/storage";
+import formTypeSlice from '@src/features/slices/formTypeSlice';
 
-const persistConfig = {
+const persistConfig ={
     key: "root",
     storage
 };
@@ -19,6 +20,7 @@ const persistedReducer = persistReducer(persistConfig, userReducer);
 export const store = configureStore({
     reducer: {
         user: persistedReducer,
+        formType: formTypeSlice,
         [authApi.reducerPath]: authApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
         [productApi.reducerPath]: productApi.reducer,

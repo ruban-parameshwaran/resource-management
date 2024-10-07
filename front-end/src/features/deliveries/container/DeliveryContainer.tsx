@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 import { useFormik } from "formik";
 import Card from "@src/components/card";
 import { useEffect, useState } from "react";
-import { FormType } from "@src/interface/Fields";
 import DeliveryList from '../screen/DeliveryList';
 import { Delivery } from '@src/interface/Delivery';
 import Animate from "@src/components/animate/Animate";
@@ -14,6 +13,9 @@ import {
     useGetAllDeliveryQuery, 
     useUpdateDeliveryMutation } 
 from '@src/services/api/deliveryApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/app/store';
+import { setFormType } from '@src/features/slices/formTypeSlice';
 
 const DeliveryContainer = () => {
 
@@ -23,8 +25,10 @@ const DeliveryContainer = () => {
     const [ deleteDelivery ] = useDeleteDeliveryMutation();
 
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [formType, setFormType] = useState<FormType>({ type: 'CREATE' });
     const [selectedDeliveryId, setSelectedDeliveryId] = useState<number | null>(null);
+
+    const dispatch = useDispatch();
+    const { formType } = useSelector((state: RootState) => state.formType);
 
     /**
      * modal functions
@@ -33,7 +37,7 @@ const DeliveryContainer = () => {
     const handleModalOpen = () => setShowModal(true);
     const handleModalClose = () => {
         setShowModal(false);
-        setFormType({type: 'CREATE'});
+        dispatch(setFormType({type: 'CREATE'}));
         onReset();
     };
 
@@ -110,7 +114,7 @@ const DeliveryContainer = () => {
     const handleEdit = (id: number) => {
         if (selectedDeliveryId === id) return;
         setSelectedDeliveryId(id);
-        setFormType({type: 'EDIT'})
+        dispatch(setFormType({type: 'EDIT'}));
         handleModalOpen();
     };
 
@@ -129,7 +133,7 @@ const DeliveryContainer = () => {
     }, [selectedDeliveryId, deliveryLists?.data])
 
     const onReset = () => {
-        setFormType({type: 'CREATE'});
+        dispatch(setFormType({type: 'CREATE'}));
         setSelectedDeliveryId(null);
         deliveryFrom.resetForm();
     }

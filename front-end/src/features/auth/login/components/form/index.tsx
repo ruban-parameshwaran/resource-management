@@ -2,9 +2,15 @@ import { Form } from "react-bootstrap";
 import styles from './auth-form.module.scss';
 import InputField from "@src/components/fields/InputField";
 import DefaultButton from "@src/components/button/DefaultButton";
+import { FormikProps } from "formik";
+
+type FormInitialValues = {
+    email: string,
+    password: string
+}
 
 type AuthFormProps = {
-    loginForm: any,
+    loginForm: FormikProps<FormInitialValues>,
     isLoading: boolean
 }
 
@@ -33,6 +39,7 @@ const AuthForm = ({ loginForm, isLoading }:AuthFormProps) => {
             </div>
             <DefaultButton 
                 message="Sign In" 
+                classes="btn-outline-primary "
                 isLoading={isLoading}
                 disabled={isLoading}
                 type="submit"

@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 import { useFormik } from "formik";
 import Card from "@src/components/card";
 import { useEffect, useState } from "react";
-import { FormType } from "@src/interface/Fields";
 import Animate from "@src/components/animate/Animate";
 import notification from '@src/services/notification';
 import LoadingIndicator from "@src/components/loader/LoadingIndicator";
@@ -11,6 +10,9 @@ import OrderList from '../screen/OrderList';
 import { Order, OrderInitialValues } from '@src/interface/order';
 import { useGetAllCustomerQuery } from '@src/services/api/customerApi';
 import { useGetAllDeliveryQuery } from '@src/services/api/deliveryApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/app/store';
+import { setFormType } from '@src/features/slices/formTypeSlice';
 
 const OrderContainer = () => {
 
@@ -33,8 +35,10 @@ const OrderContainer = () => {
     const { data: deliveryLists } = useGetAllDeliveryQuery();
 
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [formType, setFormType] = useState<FormType>({ type: 'CREATE' });
     const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+
+    const dispatch = useDispatch();
+    const { formType } = useSelector((state: RootState) => state.formType);
 
     /**
      * modal functions
@@ -43,7 +47,7 @@ const OrderContainer = () => {
     const handleModalOpen = () => setShowModal(true);
     const handleModalClose = () => {
         setShowModal(false);
-        setFormType({type: 'CREATE'});
+        dispatch(setFormType({type: 'CREATE'}));
         onReset();
     };
 
@@ -78,8 +82,7 @@ const OrderContainer = () => {
         order_date: Yup.string().required('Order Date is required field'),
         order_amount: Yup.number().required('Order Amount is required field'),
         payment_method: Yup.string().required('Payment Method is required field'),
-        status: Yup.string().required('Status is required field'),
-        delivery_id: Yup.string().required('Delivery is required field'),
+        status: Yup.string().required('Status is required field')
     });
 
     const orderFrom = useFormik({
@@ -133,7 +136,7 @@ const OrderContainer = () => {
     const handleEdit = (id: number) => {
         if (selectedOrderId === id) return;
         setSelectedOrderId(id ?? null);
-        setFormType({type: 'EDIT'})
+        dispatch(setFormType({type: 'EDIT'}))
         handleModalOpen();
     };
 
@@ -141,19 +144,20 @@ const OrderContainer = () => {
         const selectedOrder = orderLists?.data.find((item: Order) => item.id === selectedOrderId);
         if (selectedOrder) {
             orderFrom.setValues({
-                order_num: selectedOrder?.order_num,
+                order_num: selectedOrder?.order_num ?? null,
                 customer_id: selectedOrder?.customer?.id ?? null,
-                order_date: selectedOrder?.order_date,
-                order_amount: selectedOrder?.order_amount,
-                payment_method: selectedOrder?.payment_method,
-                status: selectedOrder?.status,
-                delivery_id: selectedOrder?.delivery.id ?? 0
+                order_date: selectedOrder?.order_date ?? null,
+                order_amount: selectedOrder?.order_amount ?? null,
+                payment_method: selectedOrder?.payment_method ?? null,
+                status: selectedOrder?.status ?? null,
+                delivery_id: selectedOrder?.delivery?.id ?? null
             });
+
         }                
     }, [selectedOrderId, orderLists?.data])
 
     const onReset = () => {
-        setFormType({type: 'CREATE'}); 
+        dispatch(setFormType({type: 'CREATE'}))
         setSelectedOrderId(null);
         orderFrom.resetForm();
     }
