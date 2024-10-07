@@ -9,7 +9,8 @@ import LoadingIndicator from "@src/components/loader/LoadingIndicator";
 import { useGetAllCategoryQuery } from "@src/services/api/categoryApi";
 import { useCreateProductMutation, useDeleteProductMutation, useGetAllProductListQuery, useUpdateProductMutation } from "@src/services/api/productApi";
 import notification from '@src/services/notification';
-import { FormType } from '@src/features/category/container/CategoryContainer';
+import { FormType } from '@src/interface/Fields';
+
 
 const ProductContainer = () => {
 

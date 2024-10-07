@@ -108,7 +108,7 @@ const DeliveryContainer = () => {
 
     // Handle edit
     const handleEdit = (id: number) => {
-        // if (selectedProductId === id) return;
+        if (selectedDeliveryId === id) return;
         setSelectedDeliveryId(id);
         setFormType({type: 'EDIT'})
         handleModalOpen();

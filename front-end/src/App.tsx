@@ -1,9 +1,9 @@
-import Footer from "./components/footer";
 import Header from "./components/header";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/sidebar";
 import ProtectedRoute from "./services/protected-routes";
 import Breadcrumb from "./components/breadcrumb";
+import ErrorBoundary from "./utils/ErrorBoundary";
 
 export default function App() {
     return (
@@ -24,7 +24,9 @@ export default function App() {
                         {/* Breadcrumb */}
                             <Breadcrumb />
                         {/* End of Breadcrumb */}
-                            <Outlet />
+                                <Outlet />
+                            {/* <ErrorBoundary>
+                            </ErrorBoundary> */}
                             {/* Footer */}
                             {/* <Footer /> */}
                             {/* End of Footer */}

@@ -1,42 +1,45 @@
 import { FC } from "react";
-import Card from "@src/components/card";
-import CreateProduct from "./CreateProduct";
-import { InitialValuesProducts, Product } from "@src/interface/Product";
-import ModalBox from "@src/components/modal/Modal";
-import { DropDownOption, FormType } from "@src/interface/Fields";
-import DropDown from "@src/components/fields/ActionDropdown";
 import { FormikProps } from "formik";
+import Card from "@src/components/card";
+import CreateProduct from "./CreateOrder";
+import { FormType } from "@src/interface/Fields";
+import ModalBox from "@src/components/modal/Modal";
+import { DropDownOption } from "@src/interface/Fields";
+import DropDown from "@src/components/fields/ActionDropdown";
 import DefaultButton from "@src/components/button/DefaultButton";
+import { Order, OrderInitialValues } from "@src/interface/order";
 
-type ProductListProp = {
-    productLists: Product[],
+type OrderListProp = {
+    orderLists: Order[],
+    deliveryLists: DropDownOption[],
+    customerLists: DropDownOption[],
     handleDelete: (id: number) => void,
     handleEdit:(id: number) => void,
     handleModalOpen?: () => void,
     handleModalClose?: () => void,
     showModal: boolean,
-    categoryLists?: DropDownOption[],
-    form?: FormikProps<InitialValuesProducts>,
+    form?: FormikProps<OrderInitialValues>,
     isLoading?: boolean,
     formType: FormType
 }
 
-const ProductList: FC<ProductListProp> = ({ 
-    productLists, 
+const OrderList: FC<OrderListProp> = ({ 
+    orderLists, 
     handleDelete, 
     handleEdit, 
     isLoading,
     handleModalOpen, 
     handleModalClose, 
     showModal, 
-    categoryLists, 
     formType,
+    deliveryLists,
+    customerLists,
     form }) => {
     return (
         <Card>
             <div className="px-4 py-3 border-bottom">
                <DefaultButton 
-                    message="Create Product" 
+                    message="Create Order" 
                     classes="btn-outline-primary "
                     type="button"
                     fn={handleModalOpen}/>
@@ -46,8 +49,9 @@ const ProductList: FC<ProductListProp> = ({
                     children={<CreateProduct 
                         isLoading={isLoading}
                         form={form}
-                        formType={formType}
-                        categoryLists={categoryLists}/>}
+                        formType={formType} 
+                        deliveryLists={deliveryLists}
+                        customerLists={customerLists}/>}
                     />
             </div>
             <div className="card-body p-4">
@@ -55,47 +59,43 @@ const ProductList: FC<ProductListProp> = ({
                     <table className="table text-nowrap mb-0 align-middle">
                         <thead className="text-dark fs-4">
                             <tr>
-                                <th><h6 className="fs-4 fw-semibold mb-0">Name</h6></th>
-                                <th><h6 className="fs-4 fw-semibold mb-0">Unit</h6></th>
-                                <th><h6 className="fs-4 fw-semibold mb-0">Retail Price</h6></th>
-                                <th><h6 className="fs-4 fw-semibold mb-0">Whole Sale Price</h6></th>
+                                <th><h6 className="fs-4 fw-semibold mb-0">Order Number</h6></th>
+                                <th><h6 className="fs-4 fw-semibold mb-0">Order Date</h6></th>
+                                <th><h6 className="fs-4 fw-semibold mb-0">Order Amount</h6></th>
+                                <th><h6 className="fs-4 fw-semibold mb-0">Payment Method</h6></th>
                                 <th><h6 className="fs-4 fw-semibold mb-0">Status</h6></th>
-                                <th><h6 className="fs-4 fw-semibold mb-0">Category</h6></th>
                                 <th><h6 className="fs-4 fw-semibold mb-0">Actions</h6></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {productLists.map((product: Product) => (
-                                <tr key={product.id}>
+                            {orderLists.map((order: Order) => (
+                                <tr key={order.id}>
                                     <td>
                                         <div className="d-flex align-items-center">
                                             <div className="ms-3">
-                                                <h6 className="fs-4 fw-semibold mb-0">{product?.name}</h6>
-                                                <span className="fw-normal">Product code: {product?.product_code}</span>
+                                                <p className="mb-0 fw-normal fs-4">{order?.order_num ?? 'N/A'}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p className="mb-0 fw-normal fs-4">{product?.unit}</p>
+                                        <p className="mb-0 fw-normal fs-4">{order?.order_date}</p>
                                     </td>
                                     <td>
-                                        <p className="mb-0 fw-normal fs-4">{product?.retail_price}</p>
+                                        <p className="mb-0 fw-normal fs-4">{order?.order_amount}</p>
                                     </td>
                                     <td>
-                                        <p className="mb-0 fw-normal fs-4">{product?.whole_sale}</p>
+                                        <p className="mb-0 fw-normal fs-4">{order?.payment_method}</p>
                                     </td>
                                     <td>
-                                        <span className="badge bg-success-subtle text-success">Active</span>
+                                        <p className="mb-0 fw-normal fs-4">{order?.status}</p>
                                     </td>
-                                    <td>
-                                        <p className="mb-0 fw-normal fs-4">{product?.category?.name}</p>
-                                    </td>
+                                    <td></td>
                                     <td>
                                         <span className="badge bg-light-primary text-primary ms-auto">
                                             <DropDown
                                                 onDelete={handleDelete}
                                                 onEdit={handleEdit}
-                                                id={product?.id ?? 0}
+                                                id={order?.id ?? 0}
                                             />
                                         </span>
                                     </td>
@@ -109,4 +109,4 @@ const ProductList: FC<ProductListProp> = ({
     );
 }
 
-export default ProductList;
+export default OrderList;

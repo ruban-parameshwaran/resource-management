@@ -8,7 +8,7 @@ const ProductContainer = React.lazy(() => import('@src/features/products/contain
 const CategoryContainer = React.lazy(() => import('@src/features/category/container/CategoryContainer'));
 const CustomerContainer = React.lazy(() => import('@src/features/customers/container/CustomerContainer'));
 const DeliveryContainer = React.lazy(() => import('@src/features/deliveries/container/DeliveryContainer'));
-
+const OrderContainer = React.lazy(() => import('@src/features/orders/container/OrderContainer'));
 
 const AppRoutes = createBrowserRouter([
     // public routes
@@ -56,6 +56,15 @@ const AppRoutes = createBrowserRouter([
                 <>
                     <Suspense fallback={<LoadingIndicator isLoading={true}><></></LoadingIndicator>}>
                         <DeliveryContainer />
+                    </Suspense>
+                </>
+            },
+            {
+                path: 'orders',
+                element: 
+                <>
+                    <Suspense fallback={<LoadingIndicator isLoading={true}><></></LoadingIndicator>}>
+                        <OrderContainer />
                     </Suspense>
                 </>
             }

@@ -11,10 +11,23 @@ export class AppConst {
     ];
 
     // product status types
-
     static readonly product_status = [
         {label: 'Active', value:  true},
         {label: 'Inactive', value: false},
+    ];
+
+    static readonly payment_method = [
+        {label: 'Cash on Delivery', value: 'cod'},
+        {label: 'Card Payment', value: 'card'},
+        {label: 'Online transfer', value: 'onlinetransfer'}
+    ];  
+
+    static readonly payment_status = [
+        {label: 'Open', value: 'open'},
+        {label: 'Processing', value: 'processing'},
+        {label: 'Delivered', value: 'delivered'},
+        {label: 'Rejected', value: 'rejected'},
+        {label: 'Cancel', value: 'cancel'},
     ];
 
     static readonly formType = [

@@ -90,7 +90,7 @@ const DeliveryList: FC<ProductListProp> = ({
                                         <p className="mb-0 fw-normal fs-4">{delivery?.remark}</p>
                                     </td>
                                     <td>
-                                        <p className="mb-0 fw-normal fs-4">{delivery?.orders}</p>
+                                        <p className="mb-0 fw-normal fs-4"></p>
                                     </td>
                                     <td></td>
                                     <td>
@@ -101,7 +101,7 @@ const DeliveryList: FC<ProductListProp> = ({
                                                 id={delivery?.id ?? 0}
                                             />
                                         </span>
-                                    </td>
+                                    </td> 
                                 </tr>
                             ))}
                         </tbody>

@@ -2,7 +2,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "./axiosBaseQuery";
-import { ApiResponse, Delivery, DeliveryPayload } from "@src/interface/Delivery";
+import { ApiResponse, Delivery } from "@src/interface/Delivery";
 
 export const deliveryApi = createApi({
 	reducerPath: 'delivery',

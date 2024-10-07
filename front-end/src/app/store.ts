@@ -4,6 +4,7 @@ import { authApi } from '@src/services/api/authApi';
 import { categoryApi } from '@src/services/api/categoryApi';
 import { customerApi } from '@src/services/api/customerApi';
 import { deliveryApi } from '@src/services/api/deliveryApi';
+import { orderApi } from '@src/services/api/orderApi';
 import { productApi } from '@src/services/api/productApi';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from "redux-persist/lib/storage";
@@ -23,6 +24,7 @@ export const store = configureStore({
         [productApi.reducerPath]: productApi.reducer,
         [customerApi.reducerPath]: customerApi.reducer,
         [deliveryApi.reducerPath]: deliveryApi.reducer,
+        [orderApi.reducerPath]: orderApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -32,7 +34,8 @@ export const store = configureStore({
             categoryApi.middleware,
             productApi.middleware,
             customerApi.middleware,
-            deliveryApi.middleware
+            deliveryApi.middleware,
+            orderApi.middleware
         ),
 });
 

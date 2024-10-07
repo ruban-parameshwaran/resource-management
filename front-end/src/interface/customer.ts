@@ -5,7 +5,7 @@ export interface ApiResponse {
 } 
 
 export interface Customer {
-  id: number,
+  id?: number,
   name: string,
   contact: string,
   address: string,
