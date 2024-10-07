@@ -12,12 +12,15 @@ import notification from '@src/services/notification';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@src/app/store';
 import { setFormType } from '@src/features/slices/formTypeSlice';
+import { PaginationControl } from 'react-bootstrap-pagination-control';
 
 
 const ProductContainer = () => {
 
+    const [currentPage, setCurrentPage] = useState(1);
+
     const { data: categoryLists } = useGetAllCategoryQuery();
-    const { data: productLists, isLoading, refetch } = useGetAllProductListQuery();
+    const { data: productLists, isLoading, refetch } = useGetAllProductListQuery({page: currentPage});
     const [ createProduct, {isLoading: creatingProduct} ] = useCreateProductMutation();
     const [ updateProduct, {isLoading: updatingProduct} ] = useUpdateProductMutation();
     const [ deleteProduct ] = useDeleteProductMutation();
@@ -126,6 +129,10 @@ const ProductContainer = () => {
         handleModalOpen();        
     };
 
+    const handlePaginationPageChange = (page: number) => {
+        setCurrentPage(page);
+    }
+
     useEffect(() => {
         const selectedProduct = productLists?.data.find((item: Product) => item.id === selectedProductId);
         if (selectedProduct) {
@@ -146,7 +153,7 @@ const ProductContainer = () => {
         setSelectedProductId(null);
         productForm.resetForm();
     }
-
+    
     return (
         <Animate>
             <LoadingIndicator isLoading={isLoading}>
@@ -163,6 +170,12 @@ const ProductContainer = () => {
                         handleEdit={handleEdit}
                         formType={formType}
                     />
+                    <PaginationControl
+                            page={currentPage} // current page
+                            total={productLists?.meta?.total ?? 10}
+                            limit={productLists?.meta.per_page ?? 10}
+                            changePage={handlePaginationPageChange}
+                        />
                 </Card>
             </LoadingIndicator>
         </Animate>

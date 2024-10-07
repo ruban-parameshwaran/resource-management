@@ -3,3 +3,8 @@ export interface Category {
   name: string, 
   products: any[]
 }
+
+
+export interface CategoryPayload {
+  name: string
+}

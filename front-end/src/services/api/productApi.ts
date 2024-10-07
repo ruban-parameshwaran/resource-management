@@ -7,10 +7,11 @@ export const productApi = createApi({
     reducerPath: 'product',
     baseQuery: axiosBaseQuery(),
     endpoints: (build) => ({
-        getAllProductList: build.query<ApiResponse, void>({
-            query() {
+        getAllProductList: build.query<ApiResponse, { page: number }>({
+            query(page) {
+                const { page: currentPage } = page;
                 return {
-                    url: "/api/products",
+                    url: `/api/products?page=${currentPage}`,
                     method: "GET",
                 };
             },

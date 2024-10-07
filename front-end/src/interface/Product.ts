@@ -4,7 +4,13 @@ export interface ApiResponse {
     success: string;
     message: string;
     data: Product[];
+    meta: Meta
 } 
+
+interface Meta{
+    total: number;
+    per_page: number;
+}
 
 export interface Product {
     product_code: string;
