@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Customer;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CustomerService
@@ -23,11 +24,11 @@ class CustomerService
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllCustomers()
+    public function getAllCustomers(): LengthAwarePaginator
     {
         return Customer::with('orders')
             ->orderBy('id','desc')
-            ->paginate(5);
+            ->paginate(10);
     }
 
     /**

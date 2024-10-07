@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoryService
@@ -23,10 +24,10 @@ class CategoryService
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllCategories()
+    public function getAllCategories(): LengthAwarePaginator  
     {
         return Category::with('products')
-            ->orderBy('name','desc')->paginate();
+            ->orderBy('id','desc')->paginate(10);
     }
 
     /**

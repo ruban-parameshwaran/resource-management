@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Delivery;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 
 class DeliveryService
@@ -23,9 +24,10 @@ class DeliveryService
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllDeliveries()
+    public function getAllDeliveries(): LengthAwarePaginator
     {
-        return Delivery::with('orders')->get();
+        return Delivery::with('orders')
+            ->orderBy('id','desc')->paginate(10);
     }
 
     /**

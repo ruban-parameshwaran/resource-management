@@ -3,13 +3,14 @@
 namespace App\Services;
 
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 Class ProductService {
 
-    public function getAllProducts(): Collection {
-        return Product::with('category')->get();
+    public function getAllProducts(): LengthAwarePaginator {
+        return Product::with('category')
+            ->orderBy('id','desc')->paginate(10);
     }
 
     /**
